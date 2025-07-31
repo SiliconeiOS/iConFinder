@@ -2,15 +2,13 @@
 //  AppDelegate.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 7/30/25.
-//
 
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    let diContainer = DIContainer()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

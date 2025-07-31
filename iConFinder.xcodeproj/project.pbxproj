@@ -11,10 +11,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6BE6F14E2E3A419800A4F7C0 /* Exceptions for "iConFinder" folder in "iConFinder" target */ = {
+		6BE6F2BF2E3A8CD000A4F7C0 /* Exceptions for "iConFinder" folder in "iConFinder" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = 6BE6F13B2E3A419700A4F7C0 /* iConFinder */;
 		};
@@ -24,7 +24,7 @@
 		6BE6F13E2E3A419700A4F7C0 /* iConFinder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6BE6F14E2E3A419800A4F7C0 /* Exceptions for "iConFinder" folder in "iConFinder" target */,
+				6BE6F2BF2E3A8CD000A4F7C0 /* Exceptions for "iConFinder" folder in "iConFinder" target */,
 			);
 			path = iConFinder;
 			sourceTree = "<group>";
@@ -147,7 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8682J7XR9D;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iConFinder/Info.plist;
+				INFOPLIST_FILE = iConFinder/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -174,7 +174,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8682J7XR9D;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iConFinder/Info.plist;
+				INFOPLIST_FILE = iConFinder/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
