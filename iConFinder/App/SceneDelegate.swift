@@ -2,12 +2,10 @@
 //  SceneDelegate.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 7/30/25.
-//
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
@@ -18,8 +16,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        // 1. Получаем доступ к DI-контейнеру из AppDelegate
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Could not get AppDelegate or DIContainer")
+        }
+        let diContainer = appDelegate.diContainer
+        let viewController = ViewController(diContainer: diContainer)
+        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ViewController()
+        window.rootViewController = viewController
         self.window = window
         window.makeKeyAndVisible()
     }
