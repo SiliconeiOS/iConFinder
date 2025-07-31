@@ -2,8 +2,6 @@
 //  DIContainer.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 7/31/25.
-//
 
 import Foundation
 
