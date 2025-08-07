@@ -56,7 +56,8 @@ final class DIContainer {
     lazy var searchService: SearchServiceProtocol = {
         SearchService(
             iconsService: iconsService,
-            iconsMapper: iconMapper
+            iconsMapper: iconMapper,
+            debouncer: Debouncer(delay: .milliseconds(500))
         )
     }()
 }

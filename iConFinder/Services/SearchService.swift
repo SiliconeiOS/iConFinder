@@ -15,6 +15,7 @@ final class SearchService: SearchServiceProtocol {
     
     private let iconsService: IconsServiceProtocol
     private let iconsMapper: IconMapperProtocol
+    private let debouncer: DebouncerProtocol
     
     //MARK: - State
     
@@ -29,9 +30,14 @@ final class SearchService: SearchServiceProtocol {
     
     //MARK: - Init
     
-    init(iconsService: IconsServiceProtocol, iconsMapper: IconMapperProtocol) {
+    init(
+        iconsService: IconsServiceProtocol,
+        iconsMapper: IconMapperProtocol,
+        debouncer: DebouncerProtocol = Debouncer(delay: .milliseconds(500))
+    ) {
         self.iconsService = iconsService
         self.iconsMapper = iconsMapper
+        self.debouncer = debouncer
     }
     
     //MARK: - SearchServiceProtocol Implementation
@@ -39,7 +45,9 @@ final class SearchService: SearchServiceProtocol {
     func search(query: String, completion: @escaping (Result<[Icon], Error>) -> Void) {
         reset()
         currentQuery = query
-        fetchIcons(completion: completion)
+        debouncer.debounce { [weak self] in
+            self?.fetchIcons(completion: completion)
+        }
     }
     
     func loadNextPage(completion: @escaping (Result<[Icon], Error>) -> Void) {
@@ -57,6 +65,7 @@ final class SearchService: SearchServiceProtocol {
         currentQuery = nil
         totalCount = 0
         loadedIconsCount = 0
+        debouncer.cancel()
     }
     
     //MARK: - Private Section
@@ -76,6 +85,7 @@ final class SearchService: SearchServiceProtocol {
             case .success(let responseDTO):
                 let newIcons = iconsMapper.map(responseDTO: responseDTO)
                 if isFirstFetch {
+                    Logger.info(<#T##message: String##String#>)
                     totalCount = responseDTO.totalCount
                 }
                 loadedIconsCount += newIcons.count

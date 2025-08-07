@@ -28,11 +28,6 @@ final class SearchPresenter {
     // MARK: - State
     
     private var icons: [Icon] = []
-    private var currentQuery: String?
-    private var totalCount: Int = 0
-    private var isLoading = false
-    private var currentPageOffset: Int { icons.count }
-    private let iconsPerPage = 30
     
     // MARK: - Init
     

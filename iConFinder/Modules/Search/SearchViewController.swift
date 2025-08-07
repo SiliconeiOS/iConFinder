@@ -157,4 +157,13 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         presenter.didCancelSearch()
     }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            presenter.didCancelSearch()
+        } else {
+            presenter.search(for: trimmed)
+        }
+    }
 }
