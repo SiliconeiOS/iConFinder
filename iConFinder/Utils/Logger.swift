@@ -12,7 +12,8 @@ struct Logger {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
     
-    private static var `default` = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Default")
+    private static let subsystem = Bundle.main.bundleIdentifier ?? "iConFinder"
+    private static var `default` = OSLog(subsystem: subsystem, category: "Default")
 
     static func debug(_ message: String, log: OSLog = Logger.default) {
         guard !isRunningTests else { return }

@@ -28,7 +28,7 @@ final class SearchPresenter {
     // MARK: - State
     
     private var icons: [Icon] = []
-    
+
     // MARK: - Init
     
     init(
@@ -54,10 +54,9 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
 
     func search(for query: String) {
+        view?.display(state: .loading)
         searchService.search(query: query) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.handleSearchResult(result: result, forQuery: query, isNewSearch: true)
-            }
+            self?.handleSearchResult(result: result, forQuery: query, isNewSearch: true)
         }
     }
     
@@ -70,9 +69,7 @@ extension SearchPresenter: SearchPresenterProtocol {
 
     func loadNextPage() {
         searchService.loadNextPage { [weak self] result in
-            DispatchQueue.main.async {
-                self?.handleSearchResult(result: result, forQuery: "", isNewSearch: false)
-            }
+            self?.handleSearchResult(result: result, forQuery: "", isNewSearch: false)
         }
     }
 

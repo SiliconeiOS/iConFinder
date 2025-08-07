@@ -85,7 +85,6 @@ final class SearchService: SearchServiceProtocol {
             case .success(let responseDTO):
                 let newIcons = iconsMapper.map(responseDTO: responseDTO)
                 if isFirstFetch {
-                    Logger.info(<#T##message: String##String#>)
                     totalCount = responseDTO.totalCount
                 }
                 loadedIconsCount += newIcons.count
