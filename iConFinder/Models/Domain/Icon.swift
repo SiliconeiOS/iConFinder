@@ -5,6 +5,26 @@
 
 import Foundation
 
+enum MappingError: Error, LocalizedError {
+    case noRasterSizes
+    case noFormatsInRasterSize
+    case invalidPreviewURL(String)
+    case invalidDownloadURL(String)
+    
+    var errorDescription: String? {
+        switch self {
+        case .noRasterSizes:
+            return "Server response for an icon is missing 'raster_sizes'."
+        case .noFormatsInRasterSize:
+            return "A raster size is missing 'formats' information."
+        case .invalidPreviewURL(let url):
+            return "The provided preview_url is not a valid URL: \(url)"
+        case .invalidDownloadURL(let url):
+            return "The provided download_url is not a valid URL: \(url)"
+        }
+    }
+}
+
 struct Icon {
     let id: Int
     let tags: [String]
@@ -39,25 +59,5 @@ extension Icon {
         self.largestSize = IconSize(width: largestRasterSize.sizeWidth, height: largestRasterSize.sizeHeight)
         self.previewURL = previewURL
         self.downloadURL = downloadURL
-    }
-}
-
-enum MappingError: Error, LocalizedError {
-    case noRasterSizes
-    case noFormatsInRasterSize
-    case invalidPreviewURL(String)
-    case invalidDownloadURL(String)
-    
-    var errorDescription: String? {
-        switch self {
-        case .noRasterSizes:
-            return "Server response for an icon is missing 'raster_sizes'."
-        case .noFormatsInRasterSize:
-            return "A raster size is missing 'formats' information."
-        case .invalidPreviewURL(let url):
-            return "The provided preview_url is not a valid URL: \(url)"
-        case .invalidDownloadURL(let url):
-            return "The provided download_url is not a valid URL: \(url)"
-        }
     }
 }

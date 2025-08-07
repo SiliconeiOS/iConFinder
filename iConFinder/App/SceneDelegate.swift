@@ -21,10 +21,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Could not get AppDelegate or DIContainer")
         }
         let diContainer = appDelegate.diContainer
-        let viewController = ViewController(diContainer: diContainer)
+        
+        // Используем фабрику для создания модуля
+        let rootViewController = SearchFactory.createModule(diContainer: diContainer)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = viewController
+        window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
     }

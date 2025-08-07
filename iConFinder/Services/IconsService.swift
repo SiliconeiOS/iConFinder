@@ -28,42 +28,51 @@ protocol IconsServiceProtocol {
         query: String,
         count: Int,
         offset: Int,
-        completion: @escaping (Result<[Icon], IconsServiceError>) -> Void
+        completion: @escaping (Result<NetworkDTO.IconsSearchResponse, IconsServiceError>) -> Void
     ) -> Cancellable?
 }
 
 final class IconsService: IconsServiceProtocol {
     
+    //MARK: - Dependencies
+    
     private let networkClient: NetworkClientProtocol
     private let dataParser: DataParserProtocol
-    private let iconMapper: IconMapperProtocol
+    
+    //MARK: - Init
     
     init(
         networkClient: NetworkClientProtocol,
-        dataParser: DataParserProtocol,
-        iconMapper: IconMapperProtocol
+        dataParser: DataParserProtocol
     ) {
         self.networkClient = networkClient
         self.dataParser = dataParser
-        self.iconMapper = iconMapper
     }
+    
+    //MARK: - IconsServiceProtocol Implementation
     
     @discardableResult
     func fetchIcons(
         query: String,
         count: Int,
         offset: Int,
-        completion: @escaping (Result<[Icon], IconsServiceError>) -> Void
+        completion: @escaping (Result<NetworkDTO.IconsSearchResponse, IconsServiceError>) -> Void
     ) -> Cancellable? {
         do {
-            let request = try IconfinderRequestBuilder.search(query: query, count: count, offset: offset).asURLRequest()
+            let request = try RequestBuilder
+                .search(
+                    query: query,
+                    count: count,
+                    offset: offset
+                )
+                .asURLRequest()
             
             let task = networkClient.execute(with: request) { [weak self] result in
                 guard let self else { return }
                 
                 switch result {
                 case .success(let data):
-                    process(data: data, completion: completion)
+                    parse(data: data, completion: completion)
                 case .failure(let error):
                     completion(.failure(.networkError(error)))
                 }
@@ -76,13 +85,14 @@ final class IconsService: IconsServiceProtocol {
         }
     }
     
-    private func process(data: Data, completion: @escaping (Result<[Icon], IconsServiceError>) -> Void) {
+    //MARK: - Private Section
+    
+    private func parse(data: Data, completion: @escaping (Result<NetworkDTO.IconsSearchResponse, IconsServiceError>) -> Void) {
         let parsingResult: Result<NetworkDTO.IconsSearchResponse, ParsingError> = dataParser.parse(data: data)
         
         switch parsingResult {
         case .success(let responseDTO):
-            let icons = iconMapper.map(responseDTO: responseDTO)
-            completion(.success(icons))
+            completion(.success(responseDTO))
         case .failure(let error):
             completion(.failure(.processingError(error)))
         }

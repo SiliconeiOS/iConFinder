@@ -19,10 +19,14 @@ enum RequestBuilderError: Error, LocalizedError {
         }
 }
 
-enum IconfinderRequestBuilder {
+enum RequestBuilder {
     case search(query: String, count: Int, offset: Int)
+    case downloadIcon(from: URL)
     
     func asURLRequest() throws -> URLRequest {
+        
+        var request: URLRequest
+        
         guard var components = URLComponents(string: .baseURL) else {
             throw RequestBuilderError.invalidBaseURL(.baseURL)
         }
@@ -37,13 +41,17 @@ enum IconfinderRequestBuilder {
                 URLQueryItem(name: "premium", value: .isPremium),
                 URLQueryItem(name: "vector", value: .isVector)
             ]
+            
+            guard let url = components.url else {
+                throw RequestBuilderError.invalidURLComponents
+            }
+            
+            request = URLRequest(url: url)
+            
+        case .downloadIcon(let downloadURL):
+            request = URLRequest(url: downloadURL)
         }
         
-        guard let url = components.url else {
-            throw RequestBuilderError.invalidURLComponents
-        }
-        
-        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Bearer \(String.apiKey)", forHTTPHeaderField: "Authorization")
         
