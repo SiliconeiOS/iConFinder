@@ -7,7 +7,7 @@ import UIKit
 
 protocol SearchViewProtocol: AnyObject {
     func display(viewModels: [IconViewModel])
-    func displayMore(viewModels: [IconViewModel])
+    func displayMore(newViewModels: [IconViewModel])
     func display(state: SearchView.State)
 }
 
@@ -32,6 +32,7 @@ final class SearchViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.prefetchDataSource = self
         tableView.register(IconCell.self, forCellReuseIdentifier: IconCell.reuseIdentifier)
         tableView.rowHeight = 120
         tableView.keyboardDismissMode = .onDrag
@@ -91,12 +92,14 @@ extension SearchViewController: SearchViewProtocol {
         }
     }
     
-    func displayMore(viewModels: [IconViewModel]) {
+    func displayMore(newViewModels: [IconViewModel]) {
         let currentCount = self.viewModels.count
-        let newCount = viewModels.count
-        let indexPaths = (currentCount..<newCount).map { IndexPath(row: $0, section: 0) }
+        let newItemsCount = newViewModels.count
+        let newTotalCount = currentCount + newItemsCount
+        let indexPaths = (currentCount..<newTotalCount).map { IndexPath(row: $0, section: 0) }
         
-        self.viewModels = viewModels
+        
+        self.viewModels.append(contentsOf: newViewModels)
         
         tableView.performBatchUpdates {
             tableView.insertRows(at: indexPaths, with: .automatic)
@@ -111,7 +114,7 @@ extension SearchViewController: SearchViewProtocol {
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
 
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModels.count
     }
@@ -135,8 +138,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         presenter.didSelectIcon(at: indexPath.row)
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == viewModels.count - 5 { // За 5 ячеек до конца
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: { $0.row >= viewModels.count - 1 }) {
             presenter.loadNextPage()
         }
     }

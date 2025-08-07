@@ -9,7 +9,7 @@ import UIKit
 
 final class IconCell: UITableViewCell {
     
-    static let reuseIdentifier = "IconCell"
+    static var reuseIdentifier: String { "IconCell" } 
     
     // MARK: - Properties
     

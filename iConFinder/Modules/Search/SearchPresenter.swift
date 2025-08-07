@@ -21,10 +21,9 @@ final class SearchPresenter {
     
     private weak var view: SearchViewProtocol?
     private let router: SearchRouterProtocol
-    private let iconsService: IconsServiceProtocol
+    private let searchService: SearchServiceProtocol
     private let imageService: ImageServiceProtocol
     private let photoLibraryService: PhotoLibraryServiceProtocol
-    private let iconMapper: IconMapperProtocol
 
     // MARK: - State
     
@@ -37,77 +36,18 @@ final class SearchPresenter {
     
     // MARK: - Init
     
-    init(view: SearchViewProtocol,
-         router: SearchRouterProtocol,
-         iconsService: IconsServiceProtocol,
-         imageService: ImageServiceProtocol,
-         photoLibraryService: PhotoLibraryServiceProtocol,
-         iconMapper: IconMapperProtocol) {
+    init(
+        view: SearchViewProtocol,
+        router: SearchRouterProtocol,
+        searchService: SearchServiceProtocol,
+        imageService: ImageServiceProtocol,
+        photoLibraryService: PhotoLibraryServiceProtocol
+    ) {
         self.view = view
         self.router = router
-        self.iconsService = iconsService
+        self.searchService = searchService
         self.imageService = imageService
         self.photoLibraryService = photoLibraryService
-        self.iconMapper = iconMapper
-    }
-    
-    // MARK: - Private Methods
-    
-    private func performSearch(isNewSearch: Bool) {
-        guard let query = currentQuery, !isLoading else { return }
-        
-        isLoading = true
-        if isNewSearch {
-            view?.display(state: .loading)
-        }
-        
-        iconsService.fetchIcons(query: query, count: iconsPerPage, offset: currentPageOffset) { [weak self] result in
-            guard let self = self else { return }
-            self.isLoading = false
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let responseDTO):
-                    self.handleSuccessResponse(responseDTO, isNewSearch: isNewSearch, query: query)
-                case .failure(let error):
-                    self.handleError(error)
-                }
-            }
-        }
-    }
-    
-    private func handleSuccessResponse(_ response: NetworkDTO.IconsSearchResponse, isNewSearch: Bool, query: String) {
-        let newIcons = iconMapper.map(responseDTO: response)
-        
-        if isNewSearch {
-            self.totalCount = response.totalCount
-            self.icons = newIcons
-        } else {
-            self.icons.append(contentsOf: newIcons)
-        }
-        
-        let viewModels = self.icons.map { IconViewModel(icon: $0) }
-        
-        if self.icons.isEmpty {
-            view?.display(state: .noResults(query: query))
-        } else {
-            view?.display(state: .content)
-            if isNewSearch {
-                view?.display(viewModels: viewModels)
-            } else {
-                view?.displayMore(viewModels: viewModels)
-            }
-        }
-    }
-    
-    private func handleError(_ error: IconsServiceError) {
-        // Показываем ошибку только если это был первый запрос,
-        // чтобы не прерывать "бесконечный скролл"
-        if currentPageOffset == 0 {
-            view?.display(state: .error(message: error.localizedDescription))
-        } else {
-            router.showError(message: "Failed to load more icons. Please try again later.")
-        }
     }
 }
 
@@ -119,25 +59,26 @@ extension SearchPresenter: SearchPresenterProtocol {
     }
 
     func search(for query: String) {
-        currentQuery = query
-        icons = []
-        totalCount = 0
-        performSearch(isNewSearch: true)
+        searchService.search(query: query) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.handleSearchResult(result: result, forQuery: query, isNewSearch: true)
+            }
+        }
     }
     
     func didCancelSearch() {
-        currentQuery = nil
+        searchService.reset()
         icons = []
-        totalCount = 0
         view?.display(viewModels: [])
         view?.display(state: .initial)
     }
 
     func loadNextPage() {
-        guard let query = currentQuery, !query.isEmpty, !isLoading, icons.count < totalCount else {
-            return
+        searchService.loadNextPage { [weak self] result in
+            DispatchQueue.main.async {
+                self?.handleSearchResult(result: result, forQuery: "", isNewSearch: false)
+            }
         }
-        performSearch(isNewSearch: false)
     }
 
     @discardableResult
@@ -164,8 +105,44 @@ extension SearchPresenter: SearchPresenterProtocol {
             }
         }
     }
+}
+
+//MARK: - Private Section
+
+private extension SearchPresenter {
+    func handleSearchResult(result: Result<[Icon], Error>, forQuery query: String, isNewSearch: Bool) {
+            switch result {
+            case .success(let newIcons):
+                if isNewSearch {
+                    self.icons = newIcons
+                } else {
+                    guard !newIcons.isEmpty else { return }
+                    self.icons.append(contentsOf: newIcons)
+                }
+                
+                if self.icons.isEmpty && isNewSearch {
+                    self.view?.display(state: .noResults(query: query))
+                } else {
+                    self.view?.display(state: .content)
+                    if isNewSearch {
+                        let viewModels = self.icons.map { IconViewModel(icon: $0) }
+                        self.view?.display(viewModels: viewModels)
+                    } else {
+                        let newViewModels = newIcons.map { IconViewModel(icon: $0) }
+                        self.view?.displayMore(newViewModels: newViewModels)
+                    }
+                }
+                
+            case .failure(let error):
+                if isNewSearch {
+                    view?.display(state: .error(message: error.localizedDescription))
+                } else {
+                    router.showError(message: "Failed to load more icons: \(error.localizedDescription)")
+                }
+            }
+        }
     
-    private func saveImageToLibrary(_ image: UIImage) {
+    func saveImageToLibrary(_ image: UIImage) {
         photoLibraryService.saveImage(image) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {

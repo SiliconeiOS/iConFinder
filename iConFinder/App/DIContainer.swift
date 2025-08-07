@@ -50,4 +50,13 @@ final class DIContainer {
     lazy var photoLibraryService: PhotoLibraryServiceProtocol = {
         PhotoLibraryService()
     }()
+    
+    //MARK: - High-level Services
+    
+    lazy var searchService: SearchServiceProtocol = {
+        SearchService(
+            iconsService: iconsService,
+            iconsMapper: iconMapper
+        )
+    }()
 }

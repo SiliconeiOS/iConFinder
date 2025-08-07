@@ -16,13 +16,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // 1. Получаем доступ к DI-контейнеру из AppDelegate
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("Could not get AppDelegate or DIContainer")
         }
         let diContainer = appDelegate.diContainer
         
-        // Используем фабрику для создания модуля
         let rootViewController = SearchFactory.createModule(diContainer: diContainer)
         let navigationController = UINavigationController(rootViewController: rootViewController)
         

@@ -14,10 +14,9 @@ enum SearchFactory {
         let presenter = SearchPresenter(
             view: view,
             router: router,
-            iconsService: diContainer.iconsService,
+            searchService: diContainer.searchService,
             imageService: diContainer.imageService,
-            photoLibraryService: diContainer.photoLibraryService,
-            iconMapper: diContainer.iconMapper
+            photoLibraryService: diContainer.photoLibraryService
         )
 
         view.presenter = presenter
