@@ -22,11 +22,17 @@ protocol DataParserProtocol {
 
 final class DataParser: DataParserProtocol {
     
+    //MARK: - Dependencies
+    
     private let decoder: JSONDecoder
+    
+    //MARK: - Init
     
     init(decoder: JSONDecoder = JSONDecoder()) {
         self.decoder = decoder
     }
+    
+    //MARK: - DataParserProtocol Implementation
     
     func parse<T>(data: Data) -> Result<T, ParsingError> where T : Decodable {
         do {

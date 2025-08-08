@@ -32,11 +32,17 @@ protocol NetworkClientProtocol {
 
 final class NetworkClient: NetworkClientProtocol {
     
+    //MARK: - Dependencies
+    
     private let session: URLSession
+    
+    //MARK: - Init
     
     init(session: URLSession) {
         self.session = session
     }
+    
+    //MARK: - NetworkClientProtocol Implementation
     
     func execute(with request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) -> Cancellable? {
         let completionOnMain: (Result<Data, NetworkError>) -> Void = { result in

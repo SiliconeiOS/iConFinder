@@ -30,21 +30,34 @@ final class DIContainer {
         IconMapper()
     }()
     
-    //MARK: - Network Service
+    //MARK: - Internal Services
     
     lazy var networkClient: NetworkClientProtocol = {
         NetworkClient(session: urlSession)
     }()
-    
-    lazy var imageLoader: ImageLoaderProtocol = {
-        ImageLoader(networkClient: networkClient)
+
+    lazy var imageService: ImageServiceProtocol = {
+        ImageService(networkClient: networkClient)
     }()
-    
+
     lazy var iconsService: IconsServiceProtocol = {
         IconsService(
             networkClient: networkClient,
-            dataParser: dataParser,
-            iconMapper: iconMapper
+            dataParser: dataParser
+        )
+    }()
+
+    lazy var photoLibraryService: PhotoLibraryServiceProtocol = {
+        PhotoLibraryService()
+    }()
+    
+    //MARK: - High-level Services
+    
+    lazy var searchService: SearchServiceProtocol = {
+        SearchService(
+            iconsService: iconsService,
+            iconsMapper: iconMapper,
+            debouncer: Debouncer(delay: .milliseconds(500))
         )
     }()
 }

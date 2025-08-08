@@ -10,6 +10,9 @@ protocol IconMapperProtocol {
 }
 
 final class IconMapper: IconMapperProtocol {
+    
+    //MARK: - IconMapperProtocol Implementation
+    
     func map(responseDTO: NetworkDTO.IconsSearchResponse) -> [Icon] {
         var icons = [Icon]()
         
