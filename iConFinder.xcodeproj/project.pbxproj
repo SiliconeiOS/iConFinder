@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		6B07F0022E45CBF80012A360 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BE6F1342E3A419700A4F7C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6BE6F13B2E3A419700A4F7C0;
+			remoteInfo = iConFinder;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6B07EFFE2E45CBF80012A360 /* iConFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iConFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE6F13C2E3A419700A4F7C0 /* iConFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iConFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6B07EFFF2E45CBF80012A360 /* iConFinderTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iConFinderTests;
+			sourceTree = "<group>";
+		};
 		6BE6F13E2E3A419700A4F7C0 /* iConFinder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6B07EFFB2E45CBF80012A360 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BE6F1392E3A419700A4F7C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				6BE6F13E2E3A419700A4F7C0 /* iConFinder */,
+				6B07EFFF2E45CBF80012A360 /* iConFinderTests */,
 				6BE6F13D2E3A419700A4F7C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				6BE6F13C2E3A419700A4F7C0 /* iConFinder.app */,
+				6B07EFFE2E45CBF80012A360 /* iConFinderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6B07EFFD2E45CBF80012A360 /* iConFinderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B07F0042E45CBF80012A360 /* Build configuration list for PBXNativeTarget "iConFinderTests" */;
+			buildPhases = (
+				6B07EFFA2E45CBF80012A360 /* Sources */,
+				6B07EFFB2E45CBF80012A360 /* Frameworks */,
+				6B07EFFC2E45CBF80012A360 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B07F0032E45CBF80012A360 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6B07EFFF2E45CBF80012A360 /* iConFinderTests */,
+			);
+			name = iConFinderTests;
+			packageProductDependencies = (
+			);
+			productName = iConFinderTests;
+			productReference = 6B07EFFE2E45CBF80012A360 /* iConFinderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6BE6F13B2E3A419700A4F7C0 /* iConFinder */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6BE6F14F2E3A419800A4F7C0 /* Build configuration list for PBXNativeTarget "iConFinder" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					6B07EFFD2E45CBF80012A360 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 6BE6F13B2E3A419700A4F7C0;
+					};
 					6BE6F13B2E3A419700A4F7C0 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				6BE6F13B2E3A419700A4F7C0 /* iConFinder */,
+				6B07EFFD2E45CBF80012A360 /* iConFinderTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6B07EFFC2E45CBF80012A360 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BE6F13A2E3A419700A4F7C0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6B07EFFA2E45CBF80012A360 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BE6F1382E3A419700A4F7C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6B07F0032E45CBF80012A360 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6BE6F13B2E3A419700A4F7C0 /* iConFinder */;
+			targetProxy = 6B07F0022E45CBF80012A360 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6B07F0052E45CBF80012A360 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8682J7XR9D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.ivandrobotov.iConFinderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iConFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iConFinder";
+			};
+			name = Debug;
+		};
+		6B07F0062E45CBF80012A360 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8682J7XR9D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.ivandrobotov.iConFinderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iConFinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iConFinder";
+			};
+			name = Release;
+		};
 		6BE6F1502E3A419800A4F7C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -314,6 +425,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6B07F0042E45CBF80012A360 /* Build configuration list for PBXNativeTarget "iConFinderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B07F0052E45CBF80012A360 /* Debug */,
+				6B07F0062E45CBF80012A360 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6BE6F1372E3A419700A4F7C0 /* Build configuration list for PBXProject "iConFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -44,6 +44,7 @@ final class NetworkClient: NetworkClientProtocol {
     
     //MARK: - NetworkClientProtocol Implementation
     
+    @discardableResult
     func execute(with request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) -> Cancellable? {
         let completionOnMain: (Result<Data, NetworkError>) -> Void = { result in
             DispatchQueue.main.async {
@@ -75,7 +76,7 @@ final class NetworkClient: NetworkClientProtocol {
                 return
             }
             
-            guard let data else {
+            guard let data, !data.isEmpty else {
                 completionOnMain(.failure(.noData))
                 return
             }
@@ -85,5 +86,30 @@ final class NetworkClient: NetworkClientProtocol {
         
         task.resume()
         return task
+    }
+}
+
+//MARK: - NetworkError Equatable Implementation
+
+extension NetworkError: Equatable {
+    static func ==(_ lhs: NetworkError, _ rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL, .invalidURL):
+            return true
+        case (.invalidResponse, .invalidResponse):
+            return true
+        case (.unauthorized, .unauthorized):
+            return true
+        case (.noData, .noData):
+            return true
+        case (.unexpectedStatusCode(let lhsCode), .unexpectedStatusCode(let rhsCode)):
+            return lhsCode == rhsCode
+        case (.requestFailed(let lhsError), .requestFailed(let rhsError)):
+            let lhsNSError = lhsError as NSError
+            let rhsNSError = rhsError as NSError
+            return lhsNSError.domain == rhsNSError.domain && lhsNSError.code == rhsNSError.code
+        default:
+            return false
+        }
     }
 }

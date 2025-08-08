@@ -30,6 +30,10 @@ final class DIContainer {
         IconMapper()
     }()
     
+    lazy var requestBuilder: SearchIconsRequestBuilder & DownloadIconRequestBuilder = {
+        RequestBuilder(baseURL: .apiBaseURL, apiKey: .apiKey)
+    }()
+    
     //MARK: - Internal Services
     
     lazy var networkClient: NetworkClientProtocol = {
@@ -37,12 +41,16 @@ final class DIContainer {
     }()
 
     lazy var imageService: ImageServiceProtocol = {
-        ImageService(networkClient: networkClient)
+        ImageService(
+            networkClient: networkClient,
+            requestBuilder: requestBuilder
+        )
     }()
 
     lazy var iconsService: IconsServiceProtocol = {
         IconsService(
             networkClient: networkClient,
+            requestBuilder: requestBuilder,
             dataParser: dataParser
         )
     }()
@@ -60,4 +68,11 @@ final class DIContainer {
             debouncer: Debouncer(delay: .milliseconds(500))
         )
     }()
+}
+
+//MARK: - API Constants
+
+private extension String {
+    static var apiBaseURL: String { "https://api.iconfinder.com/v4" }
+    static var apiKey: String { "R6iEg02cuYdihhNjdWX29ZfiE4rrpl8QwGTnjFvCf3nApbcw6S6JgdrRjEB3FRSh" }
 }

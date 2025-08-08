@@ -61,3 +61,15 @@ extension Icon {
         self.downloadURL = downloadURL
     }
 }
+
+//MARK: - Icon Equtable Implementation
+
+extension Icon: Equatable {
+    static func ==(_ lhs: Icon, _ rhs: Icon) -> Bool {
+        return lhs.id == rhs.id &&
+        lhs.tags == rhs.tags &&
+        lhs.largestSize == rhs.largestSize &&
+        lhs.previewURL == rhs.previewURL &&
+        rhs.downloadURL == rhs.downloadURL
+    }
+}

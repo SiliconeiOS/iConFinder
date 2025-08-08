@@ -5,10 +5,11 @@
 
 import Foundation
 
-enum IconsServiceError: Error, LocalizedError {
-    case requestBuilderError(Error)
+enum IconsServiceError: LocalizedError {
+    case requestBuilderError(RequestBuilder.Error)
     case networkError(NetworkError)
     case processingError(Error)
+    case unexpectedError(Error)
     
     public var errorDescription: String? {
         switch self {
@@ -18,6 +19,8 @@ enum IconsServiceError: Error, LocalizedError {
             return error.localizedDescription
         case .processingError(let error):
             return "Failed to process server data. Cause: \(error.localizedDescription)"
+        case .unexpectedError(let error):
+            return "An unexpected error occurred: \(error.localizedDescription)"
         }
     }
 }
@@ -37,15 +40,18 @@ final class IconsService: IconsServiceProtocol {
     //MARK: - Dependencies
     
     private let networkClient: NetworkClientProtocol
+    private let requestBuilder: SearchIconsRequestBuilder
     private let dataParser: DataParserProtocol
     
     //MARK: - Init
     
     init(
         networkClient: NetworkClientProtocol,
+        requestBuilder: SearchIconsRequestBuilder,
         dataParser: DataParserProtocol
     ) {
         self.networkClient = networkClient
+        self.requestBuilder = requestBuilder
         self.dataParser = dataParser
     }
     
@@ -59,13 +65,7 @@ final class IconsService: IconsServiceProtocol {
         completion: @escaping (Result<NetworkDTO.IconsSearchResponse, IconsServiceError>) -> Void
     ) -> Cancellable? {
         do {
-            let request = try RequestBuilder
-                .search(
-                    query: query,
-                    count: count,
-                    offset: offset
-                )
-                .asURLRequest()
+            let request = try requestBuilder.search(query: query, count: count, offset: offset)
             
             let task = networkClient.execute(with: request) { [weak self] result in
                 guard let self else { return }
@@ -79,8 +79,11 @@ final class IconsService: IconsServiceProtocol {
             }
             
             return task
-        } catch {
+        } catch let error as RequestBuilder.Error {
             completion(.failure(.requestBuilderError(error)))
+            return nil
+        } catch {
+            completion(.failure(.unexpectedError(error)))
             return nil
         }
     }
