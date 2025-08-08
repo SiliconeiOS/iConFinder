@@ -2,8 +2,6 @@
 //  IconViewModel.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 8/7/25.
-//
 
 import Foundation
 

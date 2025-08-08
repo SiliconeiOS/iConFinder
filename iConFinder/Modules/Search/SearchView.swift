@@ -2,8 +2,6 @@
 //  SearchView.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 8/4/25.
-//
 
 import UIKit
 

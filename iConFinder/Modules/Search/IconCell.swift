@@ -2,8 +2,6 @@
 //  IconCell.swift
 //  iConFinder
 //
-//  Created by Иван Дроботов on 8/4/25.
-//
 
 import UIKit
 
@@ -74,7 +72,7 @@ final class IconCell: UITableViewCell {
         activityIndicator.stopAnimating()
     }
     
-    // MARK: - Public Methods
+    // MARK: - Public Section
     
     func configure(with viewModel: IconViewModel, imageLoader: @escaping (@escaping (Result<UIImage, ImageServiceError>) -> Void) -> Cancellable?)   {
         sizeLabel.text = viewModel.sizeText
@@ -95,7 +93,7 @@ final class IconCell: UITableViewCell {
         }
     }
     
-    // MARK: - Private Methods
+    // MARK: - Private Section
     
     private func setupLayout() {
         contentView.addSubview(iconImageView)
