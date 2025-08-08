@@ -8,6 +8,7 @@ import Foundation
 
 final class NetworkClientMock: NetworkClientProtocol {
     var result: Result<Data, NetworkError>?
+    var returnedTask: Cancellable? = CancellableMock()
     
     func execute(with request: URLRequest, completion: @escaping (Result<Data, iConFinder.NetworkError>) -> Void) -> (any iConFinder.Cancellable)? {
         if let result {
@@ -15,6 +16,6 @@ final class NetworkClientMock: NetworkClientProtocol {
                 completion(result)
             }
         }
-        return nil
+        return returnedTask
     }
 }

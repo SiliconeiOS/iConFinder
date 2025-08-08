@@ -8,7 +8,7 @@ import Foundation
 enum IconsServiceError: LocalizedError {
     case requestBuilderError(RequestBuilder.Error)
     case networkError(NetworkError)
-    case processingError(Error)
+    case processingError(ParsingError)
     case unexpectedError(Error)
     
     public var errorDescription: String? {
@@ -98,6 +98,26 @@ final class IconsService: IconsServiceProtocol {
             completion(.success(responseDTO))
         case .failure(let error):
             completion(.failure(.processingError(error)))
+        }
+    }
+}
+
+extension IconsServiceError: Equatable {
+    static func == (lhs: IconsServiceError, rhs: IconsServiceError) -> Bool {
+        switch (lhs, rhs) {
+        case (.requestBuilderError(let lhsErr), .requestBuilderError(let rhsErr)):
+            return lhsErr == rhsErr
+        case (.networkError(let lhsErr), .networkError(let rhsErr)):
+            return lhsErr == rhsErr
+        case (.processingError(let lhsErr), .processingError(let rhsErr)):
+            return lhsErr == rhsErr
+        case (.unexpectedError(let lhsErr), .unexpectedError(let rhsErr)):
+            let lhsNSErr = lhsErr as NSError
+            let rhsNSErr = rhsErr as NSError
+            return lhsNSErr.domain == rhsNSErr.domain && lhsNSErr.code == rhsNSErr.code
+            
+        default:
+            return false
         }
     }
 }
