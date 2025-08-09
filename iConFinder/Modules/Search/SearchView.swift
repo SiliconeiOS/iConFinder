@@ -82,6 +82,7 @@ enum SearchView {
             switch state {
             case .initial:
                 iconImageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageLabel.accessibilityIdentifier = "stateMessageLabel"
                 messageLabel.text = "Start by searching for an icon"
                 iconImageView.isHidden = false
                 messageLabel.isHidden = false

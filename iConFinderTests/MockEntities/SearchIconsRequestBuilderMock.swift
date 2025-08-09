@@ -2,8 +2,6 @@
 //  SearchIconsRequestBuilderMock.swift
 //  iConFinderTests
 //
-//  Created by Иван Дроботов on 8/9/25.
-//
 
 import Foundation
 @testable import iConFinder

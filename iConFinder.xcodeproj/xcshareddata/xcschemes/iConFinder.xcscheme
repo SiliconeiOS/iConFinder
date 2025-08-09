@@ -41,6 +41,17 @@
                ReferencedContainer = "container:iConFinder.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B87C5232E46BE3600714B05"
+               BuildableName = "iConFinderUITests.xctest"
+               BlueprintName = "iConFinderUITests"
+               ReferencedContainer = "container:iConFinder.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
