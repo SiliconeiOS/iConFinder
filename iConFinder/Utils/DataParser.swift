@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum ParsingError: Error, LocalizedError {
+enum ParsingError: LocalizedError {
     case decodignError(Error)
     
     var errorDescription: String? {
@@ -40,6 +40,17 @@ final class DataParser: DataParserProtocol {
             return .success(decodeObject)
         } catch let error {
             return .failure(.decodignError(error))
+        }
+    }
+}
+
+extension ParsingError: Equatable {
+    static func ==(_ lhs: ParsingError, _ rhs: ParsingError) -> Bool {
+        switch (lhs, rhs) {
+        case (.decodignError(let lhsErr), .decodignError(let rhsErr)):
+            let lhsNSErr = lhsErr as NSError
+            let rhsNSErr = rhsErr as NSError
+            return lhsNSErr.domain == rhsNSErr.domain && lhsNSErr.code == rhsNSErr.code
         }
     }
 }

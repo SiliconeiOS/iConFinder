@@ -56,6 +56,7 @@ final class SearchViewController: UIViewController {
     // MARK: - Private Methods
     
     private func setupUI() {
+        setUPAccessibilityIdentifiers()
         title = "iConFinder"
         view.backgroundColor = .systemBackground
         
@@ -78,6 +79,13 @@ final class SearchViewController: UIViewController {
             stateView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
             stateView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func setUPAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "searchView"
+        tableView.accessibilityIdentifier = "iconsTableView"
+        stateView.accessibilityIdentifier = "stateView"
+        searchController.searchBar.searchTextField.accessibilityIdentifier = "searchBarTextField"
     }
 }
 

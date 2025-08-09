@@ -54,6 +54,7 @@ enum SearchView {
             setupViews()
         }
         
+        @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
@@ -81,6 +82,7 @@ enum SearchView {
             switch state {
             case .initial:
                 iconImageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageLabel.accessibilityIdentifier = "stateMessageLabel"
                 messageLabel.text = "Start by searching for an icon"
                 iconImageView.isHidden = false
                 messageLabel.isHidden = false

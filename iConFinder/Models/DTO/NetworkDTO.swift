@@ -4,7 +4,7 @@
 //
 
 enum NetworkDTO {
-    struct IconsSearchResponse: Decodable {
+    struct IconsSearchResponse: Codable {
         let totalCount: Int
         let icons: [Icon]
         
@@ -14,7 +14,7 @@ enum NetworkDTO {
         }
     }
     
-    struct Icon: Decodable {
+    struct Icon: Codable {
         let iconId: Int
         let tags: [String]
         let rasterSizes: [RasterSize]
@@ -26,7 +26,7 @@ enum NetworkDTO {
         }
     }
     
-    struct RasterSize: Decodable {
+    struct RasterSize: Codable {
         let sizeHeight: Int
         let sizeWidth: Int
         let size: Int
@@ -40,7 +40,7 @@ enum NetworkDTO {
         }
     }
     
-    struct Format: Decodable {
+    struct Format: Codable {
         let previewURL: String
         let downloadURL: String
         
